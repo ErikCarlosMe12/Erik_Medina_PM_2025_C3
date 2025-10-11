@@ -10,20 +10,34 @@ PAG y SPA:
 
 variables de tipo real. */
 
-void main(void)
+int main(void)
 {
-    float PAG, SPA;
-    SPA = 0;
-    scanf("%f", &PAG);
-    while (PAG)
-    /* Observa que la condicion es verdadera mientras el pago es diferente de cero. */
-    {
-        SPA = SPA + PAG;
-        printf("Ingrese el siguiente pago:\t");
-        scanf("%f", &PAG);
-        /* Observa que la preposicion que modifica la condicion es una lectura. */
+    float PAG, SPA = 0.0f;
+    printf("Ingrese el primer pago (0 para terminar): ");
+    if (scanf("%f", &PAG)!= 1){
+            printf("\nEntrada invalida. \n");
+            return 1;
 
     }
-    printf("\nEl total de pagos del mes es: %.2f", SPA);
+    /* La condicion es verdadera mientras el pago sea distinto de cero. */
+
+    while (PAG != 0.0f)
+
+    {
+        SPA = SPA + PAG;
+        printf("Ingrese el siguiente pago(0 para terminar):");
+        if (scanf("%f", &PAG) != 1){
+            printf("cnEntrada invalida. \n");
+            return 1;
+
+        }
+
+    }
+    printf("\nEl total de pagos del mes es: %.2f\n", SPA);
+    return 0;
 }
+
+
+
+
 

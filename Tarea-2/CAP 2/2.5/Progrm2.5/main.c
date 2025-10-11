@@ -12,7 +12,7 @@ RES: variable de tipo real. */
 void main(void)
 
 {
-int OP, T
+int OP, T;
 float RES;
 printf("Ingrese la opcion del calculo y el valor entero:");
 scanf("%d %d", &OP, &T);
@@ -28,3 +28,6 @@ break;
 }
  printf("\nResultado: %7.2f", RES);
 }
+
+
+

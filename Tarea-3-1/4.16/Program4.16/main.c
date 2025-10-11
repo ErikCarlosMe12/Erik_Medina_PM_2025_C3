@@ -69,3 +69,5 @@ produjo en las variables globales MAX y HMAX, respectivamente. */
      HMIN = H;
  }
  }
+
+

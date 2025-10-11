@@ -42,3 +42,7 @@ printf("\n\nAlumno con mejor Promedio:\t%d\t\%5.2f", MAMAT, MAPRO);
 printf("\n\nAlumno con peor Promedio:\t%d\t\%5.2f", MEMAT, MEPRO);
 }
 
+
+
+
+

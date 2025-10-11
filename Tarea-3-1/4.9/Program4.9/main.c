@@ -3,15 +3,15 @@
 
 /* Paso de una funcion como parametro por referencia. */
 
-int Suma(int x, int Y)
+int Suma(int x, int y)
 /* La funcion Suma refre la suma de los parametros de tipo entero X y Y. */
 {
-    return (X+Y);
+    return (x+y);
 }
-int Resta(int x, int Y)
+int Resta(int x, int y)
 /* Esta funcion regresa la resta de los parametros que tipo X y Y. */
 {
-    return (X-Y);
+    return (x-y);
 }
 int Control(int (*apf)(int, int), int x, int y)
 /* Esta funcion recibe como parametro otra funcion -la direccion- y
@@ -19,9 +19,11 @@ dependiendo de cual sea esta, llama a la funcion Suma o Resta. */
 
 {
     int RES;
-    RES = (*apf) (X, Y); /* Se llama a la funcion Suma o Resta. */
+    RES = (*apf) (x, y); /* Se llama a la funcion Suma o Resta. */
     return (RES);
 }
+
+
 
 void main(void)
 {

@@ -5,19 +5,28 @@
 
 I: variable de tipo entero.
 SAL y NOM: variables de tipo de real. */
-void main(void)
+ int main(void)
 
 {
     int I;
-    float SAL, NOM;
-    NOM =0;
-    for (I=1; I<=15; I++)
+    float SAL, NOM = 0.0f;
+
+    for (I = 1; I<= 15; I++)
     {
-        printf("\Ingrese el salio del profesor%d:\t", I);
-        scanf("%f", &SAL);
-        NOM = NOM + SAL;
+        printf("\nIngrese el salario del profesor%d:\t", I);
+        if (scanf("%f", &SAL) != 1){
+            printf("\nEntrada invalida.\n");
+            return 1;
 
     }
-    printf("\nEl total de la nomina es: %.2f, NOM");
+    NOM += SAL;
+
+    }
+    printf("\nEl total de la nomina es: %.2f\n", NOM);
+    return 0;
 
 }
+
+
+
+
