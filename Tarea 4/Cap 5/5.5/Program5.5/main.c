@@ -7,29 +7,34 @@ El programa, al recibir como datos las felicitaciones de un grupo de
 50 alumnos, obtienes  la frecuencia de cada una de las calificiones y
 demos escribe cual es la frecuencia mas alta. */
 
-const int TAM = 50;
+#define TAM 50
 
-void Lectura(int *, int);
-void Frecuencia(int , int , int , int); /* Protoptipos de funciones. */
-void Impresion(int *, int);
-void Mayor(int *, int);
+void Lectura(int VEC[], int T);
+void Frecuencia(int A[], int P, int B[], int T); /* Protoptipos de funciones. */
+void Impresion(int VEC[] , int T);
+void Mayor(int X[], int T);
 
-void main(void)
+int main(void)
 {
     int CAL[TAM], FRE[6] = {0}; /* Declaracion de los arreglos. */
     Lectura(CAL, TAM);     /* Se llama a la funcion Lectura. */
     Frecuencia(CAL, TAM, FRE, 6);
+
     /* Se llama a la funcion Frecuencia, se pasan ambos arreglos. */
+
     printf("\nFrecuencia de Calificaciones\n");
+
     Impresion(FRE, 6);
+
     Mayor(FRE, 6);
 }
 
 void Lectura(int VEC[], int T)
 /* La funcion Lectura se utliza para leer el arreglo de calificaciones. */
+
 {
     int I;
-    for (I=0; I<T; I++)
+    for (I = 0; I < T; I++)
 
 {
     printf("Ingrese la calificacion -0.05- del alumno %d: ", I+1);
@@ -42,7 +47,7 @@ void Impresion(int VEC[], int T)
 /* La funcion Impresion  se utiliza para imprir el arreglo de frecuencias . */
 {
     int I;
-    for (I=0; I<T; I++)
+    for (I = 0; I < T; I++)
         printf("\nVEC[%d]: %d", I, VEC[I]);
 
 }
@@ -52,7 +57,7 @@ void Frecuencia(int A[], int P, int B[], int T)
 {
     int I;
     for (I=0;  I<P; I++)
-        if ((A[I] >= 0) && (A[1] < 6)) /* Se valida que la calificacion sea
+        if ((A[I] >= 0) && (A[1] < T)) /* Se valida que la calificacion sea
         correcta. */
     B[A[I]]++; /* Observa la forma de almacenar e incrementar las frecuencias. */
 
@@ -62,13 +67,13 @@ void Mayor(int *X, int T)
 /* Esta funcion obtiene la primera ocurrencia de la frecuencia mas alta. */
 {
     int I, MFRE = 0, MVAL = X[0];
-    for (I=1; I<T; I++)
+    for (I = 1; I < T; I++)
         if (MVAL < X[I])
     {
         MFRE = I;
         MVAL = X[I];
     }
-    printf("\n\nMayor frecuencia de calificaciones: %d \tValor: %d \tValor: %d", MFRE, MVAL);
+    printf("\nMayor frecuencia de calificaciones %d: %d\n", MFRE, MVAL);
 
 }
 

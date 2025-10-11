@@ -5,90 +5,90 @@ El programa, al recibir como datos un arreglo unidimensional desordenado
 de N elementos, obtiene como salida ese mismo arreglo pero sin los
 elementos repetitivos. */
 
-void Lectura(int *, int); /* Prototipos de funciones. */
-void Imprime(int *, int);
-void Elimina(int *, int *);
+#define MAX 100
 
-/* Observa que en el prototipo de Elimina, el segundo parametro es
-por referencia. Esto, porque el tamaño del arreglo puede disminuir.*/
 
-void main(void)
+void Lectura(int *A, int T); /* Prototipos de funciones. */
+void Imprime(const int *A , int T);
+void Elimina_0(int *A, int *T); /* T por referencia: puede disminuir */
+
+
+int main(void)
+
 {
-    int TAM, ARRE[100];
-    /* Se escribe un do-while para verificar que el tamaño del arreglo que se
-    ingresa se correctos. */
+    int TAM, ARRE[MAX];
+    /* Validacion del tamaño ingresado */
 
-    do
-    {
-        printf("Ingrese el tamaño del arreglo: ");
-        scanf("%d ", &TAM);
+    do {
+             printf("Ingrese el tamaño del arreglo (1-%d): ", MAX);
 
-    }
-    while(TAM > 100 || TAM < 1);
-    Lectura(ARRE, TAM);
-    Elimina(ARRE, &TAM);
-    /* Observa que el tamaño del arreglo se pasa por referencia. */
-    Imprime(ARRE, TAM);
-    }
+            if (scanf("%d", &TAM) != 1) {
+                    printf("Entrada invalida.\n");
+                    return 0;
 
-    void Lectura(int A[], int T)
-    /* La funcion Lectura se utiliza para leer un arreglo unidimensional
-    de T elementos de tipo entero. */
+                    }
+}  while (TAM < 1  || TAM > MAX);
 
-    {
-        printf("\n");
-        int I;
-        for (I=0; I<T;  I++)
-    {
-        printf("Ingrese el elemento %d: ", I+1);
-        scanf("%d", &A[I]);
 
-    }
+Lectura(ARRE, TAM);
+Elimina_0(ARRE, &TAM); /* T por referencia: puede reducirse al eliminar dupllicados */
+Imprime(ARRE, TAM);
+
+return 0;
 }
 
-void Imprime(int A[], int T)
-/* La funcion Imprime se utiliza para escribir un arreglo unidimensional, sin
-repeticiones, de T elementos de tipo entero. */
+
+void Lectura(int A[], int T)
+/* Lee T enteros en el arreglo A. */
+
 {
     int I;
-    for (I=0; I<T; I++)
-        printf("\nA[%d]: %d", I, A[I]);
-
+    printf("\n");
+    for (I = 0; I < T; I++) {
+            printf("Ingrese el elemento %d: ", I + 1);
+            scanf("%d", &A[I]);
+            }
 }
 
-void Elimina(int A[], int *T)
-/* Esta funcion se utiliza para eliminar los elementos repetidos de un arreglo
-unidimensional de T elementos de tipo entero. */
+void Imprime(const int A[], int T)
+/* Imprime el arreglo A de tamaño T*/
 {
     int I;
-    for (I=0; I<T; I++)
-        printf("\nA[%d]: %d", I, A[I]);
+    printf("\nArreglo sin elementos repetitivos:\n");
+    for (I = 0; I < T; I++)
+    printf("A[%d]: %d\n", I, A[I]);
 
 }
 
-void Elimina(int A[], int *T)
-/* Esta funcion se utiliza para eliminar los elementos repetidos de un
-arreglo unidimensional de T elemtentos de tipo entero.*/
+
+void Elimina_0(int A[], int *T)
+/* Elimina elementos repetitivos preservando la primera aparicion. */
+
 {
     int I = 0, K, L;
-    while (I < (*T-1))
-    {
-        K = I + 1;
-        while (K <= (*T-1))
-        {
-            if (A[I] == A[K])
-            {
-                for (L = K; L < (*T-1); L++)
-                    A[L] = A[L+1];
-                *T = *T -1;
+
+    while(I < (*T - 1)) {
+            K = I + 1;
+            while (K < *T){
+                if (A[I] == A[K]){
+                        /* Desplazar a la izquierda desde K */
+                        for (L = K; L < (*T - 1); L++)
+                        A[L] = A[L + 1];
+                (*T)--; /* Se redujo el tama;o */
+                /* No incrementamos K: deemos revisar el nuevo A[K] */
+
+                } else {
+                    K++;
+
+                }
 
             }
-            else
-                K++;
+            I++;
+
         }
-        I++;
-    }
 }
+
+
 
 
 

@@ -1,27 +1,31 @@
 #include <stdio.h>
 
+#define MAX 100
 
 /* Busqueda secuencial en arreglos ordenados en forma creciente. */
-const int MAX=100;
-
-void Lectura(int, int); /* Prototipos de funciones. */
-int Busca(int *, int, int);
 
 
-void main(void)
+void Lectura(int *A, int T); /* Prototipos de funciones. */
+int Busca (int *A, int T , int E);
+
+
+int main(void)
 {
     int RES, ELE, TAM, VEC[MAX];
-    do
-    {
-        printf("Ingrese el tamaño del arreglo: ");
-        scanf("%d ", &TAM);
+    do{
+        printf("Ingrese el tamaño del arreglo (1-%d): ", MAX);
+        if (scanf("%d ", &TAM) != 1){
+                printf("Entrada invalida.\n");
+                return 0;
+        }
 
-    }
-    while (TAM > MAX || TAM < 1);
+    } while (TAM > MAX || TAM < 1);
     /* Se verifica que el tamaño del arreglo sea correcto. */
     Lectura(VEC, TAM);
+
     printf("\nIngrese el elemento a buscar:");
     scanf("%d", &ELE);
+
     RES = Busca(VEC, TAM, ELE); /* Se llama a la funcion que busca en el arreglo. */
 
     if (RES)
@@ -30,15 +34,16 @@ void main(void)
         printf("\\nEl elemento se encuentra en la posicion: %d", RES);
         else
             printf("\nEl elemento no se encuentra en el arreglo");
+            return 0;
 
 }
+
 
 void Lectura(int A[], int T)
 /* La funcion Lectura se utiliza para leer un arreglo unidimensional de T elementos de tipo entero. */
 {
     int I;
-    for (I=0; I<T; I++)
-    {
+    for (I=0; I<T; I++){
         printf("Ingrese el elemento %d: ", I+1);
         scanf("%d", &A[I]);
 
@@ -50,18 +55,22 @@ int Busca(int A[], int T, int E)
 Si se encuentra, la funcion regresa la posicion correspondiente. En caso contrario regresa 0. */
 
 {
-    int RES, I = 0, BAN = 0;
-    while ((I < T) && (E >= A[I]) && !BAN)
+    int I = 0;
+    int BAN = 0;
+    int RES = 0;
+
+    while ((I < T) && (E >= A[I]) && !BAN){
     /* Observa que se incorpora una nueva condicion. */
     if (A[I] == E)
-          BAN++;
+          BAN = 1;
     else
         I++;
+    }
     if (BAN)
         RES = I + 1;
     /* Se asigna I+1 dado que las posiciones en el arreglo comienzan desde cer. */
-    else
-        RES = BAN;
+
     return (RES);
 }
+
 

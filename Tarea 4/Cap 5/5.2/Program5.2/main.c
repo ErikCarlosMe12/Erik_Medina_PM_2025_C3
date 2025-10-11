@@ -30,3 +30,5 @@ void main(void)
        printf("\nCandidato %d: %d", I+1, ELE[I]);
 }
 
+
+

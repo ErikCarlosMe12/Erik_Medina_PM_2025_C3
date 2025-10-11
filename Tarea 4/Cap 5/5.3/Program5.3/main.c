@@ -52,3 +52,4 @@ printf("\nX = %d \t Y = %d \t Z[0]= %d \t Z[1] = %d Z[2] = %d \t Z[3] = %d \t  Z
 
 
 
+
