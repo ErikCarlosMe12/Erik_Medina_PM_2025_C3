@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1765501837 source:h:\programcaion 1\tarea 9\codigos\pila\pila\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
