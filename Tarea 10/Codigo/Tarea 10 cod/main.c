@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h> /* Para las funciones de validación (isalpha, isdigit, etc.) */
+#include <ctype.h>
 
-/* Definición de la estructura del Libro (Nombres de variables humanizados)*/
+
 typedef struct Libro {
     int codigoLibro;
     char titulo[300];
@@ -11,10 +11,11 @@ typedef struct Libro {
     char descripcion[300];
     int anioPublicacion;
     float precioVenta;
-    struct Libro* siguienteLibro; // Puntero al siguiente (Lista Enlazada)
+    struct Libro* siguienteLibro;
     } Libro;
 
-/* --- Prototipos de funciones de la lista --- */
+
+/* Prototipos de funciones de la lista */
     void agregarLibro(Libro** inicioLista);
     void imprimirCatalogo(Libro* inicioLista);
     void buscarPorTitulo(Libro* inicioLista);
@@ -25,18 +26,18 @@ typedef struct Libro {
     void leerDeDisco(Libro** inicioLista);
     void liberarMemoria(Libro* inicioLista);
 
-/* --- Prototipos de funciones de utilidad y validación --- */
+/* Prototipos de funciones de utilidad y validación  */
     void limpiarBuffer();
     int esSoloNumero(char* cadena);
     int esSoloLetrasYEspacios(char* cadena);
     void mostrarMenu();
 
-    /* --- Función Principal (Main) --- */
+
     int main() {
     Libro* listaLibros = NULL; /*Puntero al inicio de la lista*/
     int opcionMenu;
 
-    /* 1. Cargar datos del disco al iniciar */
+
     leerDeDisco(&listaLibros);
 
     do {
@@ -46,7 +47,7 @@ typedef struct Libro {
     if (scanf("%d", &opcionMenu) != 1) {
     printf("\n>> ERROR: Ingrese solo el numero de la opcion.\n");
     limpiarBuffer();
-    opcionMenu = 0; // Opción inválida
+    opcionMenu = 0; /* Opción inválida*/
     } else {
     limpiarBuffer();
     }
@@ -75,8 +76,6 @@ typedef struct Libro {
             return 0;
     }
 
-    /* --- Implementación de Funciones de Utilidad --- */
-    /* Dibuja el menú con el estilo de la imagen solicitada */
     void mostrarMenu() {
         printf("\n\n");
         printf("\t==============================================\n");
@@ -99,30 +98,29 @@ typedef struct Libro {
         printf("\t==============================================\n");
         printf("\n\t>> Ingrese su opcion: ");
         }
-/* Limpia el buffer de entrada después de usar scanf */
+
 void limpiarBuffer() {
     int c;
         while ((c = getchar()) != '\n' && c != EOF);
         }
 
-        /* Valida si una cadena es estrictamente numérica (para código, año, precio)*/
+        /* Valida si una cadena que solo sea para valores numericos */
         int esSoloNumero(char* cadena) {
         if (cadena[0] == '\0') return 0; /* Cadena vacía */
         for (int i = 0; cadena[i] != '\0'; i++) {
-        /* Permitimos el punto decimal para el precio*/
+        /* Permite punto decimal para el precio*/
         if (!isdigit(cadena[i]) && (cadena[i] != '.')) {
         return 0;
             }
         }
-                    return 1;
+            return 1;
     }
 
-    /* Valida si una cadena solo contiene letras y espacios (para autor) */
     int esSoloLetrasYEspacios(char* cadena) {
         if (cadena[0] == '\0') return 0;
             for (int i = 0; cadena[i] != '\0'; i++) {
                 if (!isalpha(cadena[i]) && !isspace(cadena[i])) {
-                return 0; /* Caracter inválido encontrado */
+                return 0;
             }
         }
             return 1;
@@ -135,7 +133,7 @@ void limpiarBuffer() {
     while (1) {
     printf("%s", mensaje);
     if (fgets(buffer, sizeof(buffer), stdin) == NULL) continue;
-    buffer[strcspn(buffer, "\n")] = 0; /* Limpiar \n */
+    buffer[strcspn(buffer, "\n")] = 0;
 
     if (esSoloNumero(buffer)) {
     sscanf(buffer, "%d", &numero);
@@ -145,8 +143,6 @@ void limpiarBuffer() {
             }
         }
     }
-
-    /* Función auxiliar para leer float con validación numérica */
     float leerPrecioValidado(const char* mensaje) {
     char buffer[50];
     float precio;
@@ -169,7 +165,7 @@ void limpiarBuffer() {
     while (1) {
     printf("%s", mensaje);
     if (fgets(destino, tamano, stdin) == NULL) continue;
-    destino[strcspn(destino, "\n")] = 0; /* Limpiar \n */
+    destino[strcspn(destino, "\n")] = 0;
 
     if (esSoloLetrasYEspacios(destino)) {
     break;
@@ -182,9 +178,8 @@ void limpiarBuffer() {
 
     /* --- Implementación de Funciones de Lista Enlazada --- */
 
-    /* 1. Agrega un nuevo libro a la lista (usa malloc) */
+    /* 1. Agrega un nuevo libro a la lista usa malloc */
     void agregarLibro(Libro** inicioLista) {
-    /* 1. Asignación de memoria dinámica */
     Libro* nuevoLibro = (Libro*)malloc(sizeof(Libro));
     if (nuevoLibro == NULL) {
     printf("Error: No hay memoria suficiente (malloc fallo).\n");
@@ -198,7 +193,7 @@ void limpiarBuffer() {
 
     leerAutorValidado("Ingrese Nombre del Autor (Solo letras): ", nuevoLibro->nombreAutor, 300);
 
-    printf("Ingrese Titulo: "); /* Acepta letras y numeros, por eso no usa validacion estricta */
+    printf("Ingrese Titulo: ");
     fgets(nuevoLibro->titulo, 300, stdin);
     nuevoLibro->titulo[strcspn(nuevoLibro->titulo, "\n")] = 0;
 
@@ -209,14 +204,12 @@ void limpiarBuffer() {
     nuevoLibro->anioPublicacion = leerNumeroValidado("Ingrese Anio de Publicacion: ");
     nuevoLibro->precioVenta = leerPrecioValidado("Ingrese Precio de Venta (ej: 25.00): ");
 
-    /* 2. Conectar el nuevo nodo al inicio de la lista */
     nuevoLibro->siguienteLibro = *inicioLista;
     *inicioLista = nuevoLibro;
 
     printf("\n¡Libro agregado correctamente!\n");
         }
 
-    /* 2. Imprime la lista completa con formato de tabla */
     void imprimirCatalogo(Libro* inicioLista) {
     if (inicioLista == NULL) {
     printf("\n--- EL CATALOGO ESTÁ VACÍO ---\n");
@@ -241,7 +234,6 @@ void limpiarBuffer() {
         }
     printf("========================================================================================\n");
     }
-    /* 3. Buscar por Título */
     void buscarPorTitulo(Libro* inicioLista) {
     if (inicioLista == NULL) {
     printf("\nLa lista esta vacia.\n");
@@ -265,7 +257,6 @@ void limpiarBuffer() {
         }
     if (!encontrado) printf("No se encontraron libros con ese titulo.\n");
     }
-    /* 4. Buscar por Autor */
     void buscarPorAutor(Libro* inicioLista) {
     if (inicioLista == NULL) {
     printf("\nLa lista esta vacia.\n");
@@ -289,7 +280,6 @@ void limpiarBuffer() {
     if (!encontrado) printf("No se encontraron libros de ese autor.\n");
         }
 
-    /* 5. Ordenar por Precio (Bubble Sort) */
     void ordenarPorPrecio(Libro* inicioLista) {
     if (inicioLista == NULL || inicioLista->siguienteLibro == NULL) return;
 
@@ -303,8 +293,8 @@ void limpiarBuffer() {
 
     while (puntero1->siguienteLibro != ultimoRevisado) {
     if (puntero1->precioVenta > puntero1->siguienteLibro->precioVenta) {
-    /* Intercambio de DATOS (todo el contenido del struct) */
-    /* 1. Guardar datos del nodo actual en variables temporales */
+    /* Intercambio de datos del struct */
+    /* Guardar datos en el nodo actual en variables temporales */
     int temp_cod = puntero1->codigoLibro;
     int temp_anio = puntero1->anioPublicacion;
     float temp_precio = puntero1->precioVenta;
@@ -313,7 +303,7 @@ void limpiarBuffer() {
     strcpy(temp_aut, puntero1->nombreAutor);
     strcpy(temp_desc, puntero1->descripcion);
 
-    /* 2. Copiar datos del nodo siguiente al nodo actual */
+    /* Copiar datos del nodo siguiente al nodo actual */
     puntero1->codigoLibro = puntero1->siguienteLibro->codigoLibro;
     puntero1->anioPublicacion = puntero1->siguienteLibro->anioPublicacion;
     puntero1->precioVenta = puntero1->siguienteLibro->precioVenta;
@@ -321,7 +311,7 @@ void limpiarBuffer() {
     strcpy(puntero1->nombreAutor, puntero1->siguienteLibro->nombreAutor);
     strcpy(puntero1->descripcion, puntero1->siguienteLibro->descripcion);
 
-    /* 3. Copiar datos temporales al nodo siguiente */
+    /* Copiar datos temporales al nodo siguiente */
     puntero1->siguienteLibro->codigoLibro = temp_cod;
     puntero1->siguienteLibro->anioPublicacion = temp_anio;
     puntero1->siguienteLibro->precioVenta = temp_precio;
@@ -335,7 +325,7 @@ void limpiarBuffer() {
     ultimoRevisado = puntero1;
     } while (intercambiado);
     }
-    /* 6. Eliminar un libro de la lista */
+
     void eliminarLibro(Libro** inicioLista) {
     if (*inicioLista == NULL) {
     printf("\nLa lista esta vacia, no hay nada que eliminar.\n");
@@ -347,10 +337,9 @@ void limpiarBuffer() {
     Libro* actual = *inicioLista;
     Libro* anterior = NULL;
 
-    /* Caso 1: El libro a eliminar es el primero (la cabeza)*/
     if (actual != NULL && actual->codigoLibro == codigoAEliminar) {
-    *inicioLista = actual->siguienteLibro; // La cabeza avanza
-    free(actual); // Liberamos la memoria
+    *inicioLista = actual->siguienteLibro; /* La cabeza avanza*/
+    free(actual); /* Liberamos la memoria */
     printf("Libro con codigo %d eliminado exitosamente.\n", codigoAEliminar);
     return;
                                 }
@@ -360,18 +349,17 @@ void limpiarBuffer() {
     anterior = actual;
     actual = actual->siguienteLibro;
     }
-    /* Si actual es NULL, no lo encontró */
+
     if (actual == NULL) {
     printf("No se encontro ningun libro con el codigo %d.\n", codigoAEliminar);
     return;
     }
-    /* Desvincular el nodo: El anterior apunta al siguiente del actual */
+
     anterior->siguienteLibro = actual->siguienteLibro;
-    free(actual); // Liberamos memoria
+    free(actual); /* Libera la memoria */
     printf("Libro con codigo %d eliminado exitosamente.\n", codigoAEliminar);
     }
 
-    /* 7. Guardar en Disco (Persistencia) */
     void guardarEnDisco(Libro* inicioLista) {
     FILE* archivo = fopen("libros_inventario.txt", "w");
     if (archivo == NULL) {
@@ -390,14 +378,13 @@ void limpiarBuffer() {
     fclose(archivo);
     }
 
-    /* 8. Leer del Disco (Persistencia) */
     void leerDeDisco(Libro** inicioLista) {
     FILE* archivo = fopen("libros_inventario.txt", "r");
     if (archivo == NULL) {
     printf("Archivo de inventario no encontrado. Se creara uno nuevo.\n");
     return;
     }
-    /* Variables temporales para la lectura (deben ser del mismo tamaño que en el struct) */
+    /* Variables temporales para la lectura deben ser del mismo tamaño que en el struct. */
     int cod, anio;
     float pre;
     char tit[300], aut[300], des[300];
@@ -408,14 +395,12 @@ void limpiarBuffer() {
     sscanf(linea, "%d|%[^|]|%[^|]|%[^|]|%d|%f",
     &cod, tit, aut, des, &anio, &pre);
 
-    /* Crear nodo y asignarle memoria */
     Libro* nuevoNodo = (Libro*)malloc(sizeof(Libro));
     if (nuevoNodo == NULL) {
     printf("Error de memoria al cargar archivo.\n");
     break;
     }
 
-    /* Asignar datos al nodo */
     nuevoNodo->codigoLibro = cod;
     strcpy(nuevoNodo->titulo, tit);
     strcpy(nuevoNodo->nombreAutor, aut);
@@ -423,7 +408,6 @@ void limpiarBuffer() {
     nuevoNodo->anioPublicacion = anio;
     nuevoNodo->precioVenta = pre;
 
-    /* Insertamos al inicio de la lista */
     nuevoNodo->siguienteLibro = *inicioLista;
     *inicioLista = nuevoNodo;
     }
@@ -431,7 +415,6 @@ void limpiarBuffer() {
     printf("Inventario cargado correctamente.\n");
         }
 
-    /* Libera toda la memoria dinámica antes de salir del programa */
     void liberarMemoria(Libro* inicioLista) {
     Libro* actual = inicioLista;
     while (actual != NULL) {
@@ -440,5 +423,7 @@ void limpiarBuffer() {
     free(temporal);
         }
     }
+
+
 
 
